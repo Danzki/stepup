@@ -1,0 +1,32 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.danzki</groupId>
+        <artifactId>stepup-study</artifactId>
+        <version>${revision}</version>
+    </parent>
+    <groupId>com.danzki</groupId>
+    <artifactId>stepup-study-1</artifactId>
+    <version>${revision}</version>
+    <name>stepup-task-1</name>
+    <description>StepUp Task 1</description>
+    <packaging>jar</packaging>
+    <properties>
+        <java.version>20</java.version>
+        <encoding>UTF-8</encoding>
+        <maven.compiler.source>20</maven.compiler.source>
+        <maven.compiler.target>20</maven.compiler.target>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.10.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <build>
+        <finalName>stepUpTask1_2</finalName>
+    </build>
+</project>
