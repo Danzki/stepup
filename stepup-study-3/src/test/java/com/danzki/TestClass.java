@@ -12,6 +12,12 @@ public class TestClass implements TestInterface {
 
     @Override
     @Cache(time = 1000)
+    public Object testMethod() {
+        return new Object();
+    }
+
+    @Override
+    @Cache(time = 1000)
     public int increamentCounter() {
         this.counter++;
         return this.counter;

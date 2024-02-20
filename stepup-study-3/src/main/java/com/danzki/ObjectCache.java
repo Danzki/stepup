@@ -1,26 +1,24 @@
 package com.danzki;
 
-import java.util.Date;
-
 public class ObjectCache {
     final private Object value;
-    final private Date createDateTime;
+    final private long exprTime;
 
-    public ObjectCache(Object value, Date createDateTime) {
+    public ObjectCache(Object value, Clock clock, long timeout) {
         this.value = value;
-        this.createDateTime = createDateTime;
+        this.exprTime = clock.currentMillis() + timeout;
+    }
+
+    public ObjectCache(Object value, long timeout) {
+        this.value = value;
+        this.exprTime = System.currentTimeMillis() + timeout;
     }
 
     public Object getValue() {
         return value;
     }
 
-    public Boolean isLive(Long liveTime) {
-        Date now = new Date();
-        Date expireTime = new Date(this.createDateTime.getTime() + liveTime);
-        if (now.compareTo(expireTime) > 0)  {
-            return false;
-        }
-        return true;
+    public Boolean isLive(long currentTimeMillis) {
+        return this.exprTime > currentTimeMillis;
     }
 }
