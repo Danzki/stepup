@@ -11,7 +11,15 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class CacheUtils {
 
-    private static Map<String, List<ObjectCache>> cacheData = new ConcurrentHashMap<>();
+    private Clock clock;
+
+    public CacheUtils(Clock clock) {
+        this.clock = clock;
+    }
+
+    public CacheUtils() {
+        this(System::currentTimeMillis);
+    }
 
     public static Map<String, Long> getAnnotatedMethodsMap(Object obj, Class annotation) {
         Method[] methods = obj.getClass().getDeclaredMethods();
@@ -38,7 +46,7 @@ public class CacheUtils {
         return annotatedMethods;
     }
 
-    private static ObjectCache getLatestCacheValue(List<ObjectCache> objectCaches, Long liveTime) {
+    private static ObjectCache getLatestCacheValue(List<ObjectCache> objectCaches) {
         ListIterator li = objectCaches.listIterator(objectCaches.size());
         while (li.hasPrevious()) {
             return (ObjectCache) li.previous();
@@ -46,11 +54,11 @@ public class CacheUtils {
         return null;
     }
 
-    private static void deleteNotLive(List<ObjectCache> objectCaches, Long liveTime) {
+    private static void deleteNotLive(List<ObjectCache> objectCaches, Clock clock) {
         ListIterator li = objectCaches.listIterator(objectCaches.size());
         while (li.hasPrevious()) {
             ObjectCache dc = (ObjectCache) li.previous();
-            if (!dc.isLive(liveTime)) {
+            if (!dc.isLive(clock.currentMillis())) {
                 synchronized (objectCaches) {
                     objectCaches.remove(objectCaches.indexOf(dc));
                 }
@@ -58,7 +66,9 @@ public class CacheUtils {
         }
     }
 
-    public static <T> T cache(T obj) {
+    public <T> T cache(T obj) {
+        Map<String, List<ObjectCache>> cacheData = new ConcurrentHashMap<>();
+
         Map<String, Long> annotatedCacheMethods = getAnnotatedMethodsMap(obj, Cache.class);
         List<String> annotatedMutatorMethods = getAnnotatedMethodsList(obj, Mutator.class);
 
@@ -69,14 +79,14 @@ public class CacheUtils {
             Long liveTime = annotatedCacheMethods.get(methodName);
             if (liveTime != null) {
                 if (cacheData.containsKey(methodName)) {
-                    deleteNotLive(cacheData.get(methodName), liveTime);
-                    cacheLatest = getLatestCacheValue(cacheData.get(methodName), liveTime);
+                    deleteNotLive(cacheData.get(methodName), clock);
+                    cacheLatest = getLatestCacheValue(cacheData.get(methodName));
                 } else {
                     cacheData.put(methodName, new ArrayList<>());
                 }
                 if (cacheLatest == null) {
                     result = method.invoke(obj, args);
-                    ObjectCache cacheValue = new ObjectCache(result, new Date());
+                    ObjectCache cacheValue = new ObjectCache(result, clock, liveTime);
                     cacheData.get(methodName).add(cacheValue);
                     synchronized (cacheData) {
                         cacheData.put(methodName, cacheData.get(methodName));
