@@ -42,5 +42,6 @@ logging:
     org.springframework: ERROR
     org.hibernate: ERROR
     com.danzki.services.LogFileService: INFO
+    com.danzki.logger.LogTransformationProcessor: DEBUG
 
 

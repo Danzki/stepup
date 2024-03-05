@@ -35,5 +35,8 @@
     <logger name="com.danzki.services.LogFileService" level="info" additivity="false">
         <appender-ref ref="RollingFile" />
     </logger>
+    <logger name="com.danzki.logger.LogTransformationProcessor" level="info" additivity="false">
+        <appender-ref ref="RollingFile" />
+    </logger>
 
 </configuration>

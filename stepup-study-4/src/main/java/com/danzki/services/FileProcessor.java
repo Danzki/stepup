@@ -48,9 +48,7 @@ public class FileProcessor {
 
     private List<String> getFileRows() {
         List<String> fileRows = new ArrayList<>();
-        BufferedReader lineReader = null;
-        try {
-            lineReader = new BufferedReader(new FileReader(file));
+        try (var lineReader = new BufferedReader(new FileReader(file))) {
             String lineText = null;
             int count = 0;
 //            lineReader.readLine();  //skip header
@@ -58,11 +56,10 @@ public class FileProcessor {
                 fileRows.add(lineText);
                 count++;
             }
-            lineReader.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
 
         return fileRows;
@@ -71,10 +68,10 @@ public class FileProcessor {
     public void process() {
         var fileData = getFileData(fileRows);
         fileData.stream()
-                .filter((row) -> row.validate() == true)
+                .filter((row) -> row.isValid() == true)
                 .forEach(this::saveData);
         fileData.stream()
-                .filter((row) -> row.validate() == false)
+                .filter((row) -> row.isValid() == false)
                 .forEach(this::saveLog);
     }
 

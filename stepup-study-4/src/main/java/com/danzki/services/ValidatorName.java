@@ -1,9 +1,5 @@
 package com.danzki.services;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class ValidatorName implements Validatable {
     private String original;
     private String value;
@@ -26,6 +22,9 @@ public class ValidatorName implements Validatable {
     }
 
     private String getValidName(String original) {
+        if (original == null) {
+            return null;
+        }
         return original.trim().toLowerCase().substring(0, 1).toUpperCase() +
                 original.trim().toLowerCase().substring(1);
     }

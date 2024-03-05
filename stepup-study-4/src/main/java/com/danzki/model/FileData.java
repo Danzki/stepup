@@ -1,16 +1,16 @@
 package com.danzki.model;
 
-import com.danzki.services.FileListener;
 import com.danzki.services.ValidatorApplication;
 import com.danzki.services.ValidatorDate;
 import com.danzki.services.ValidatorName;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 
-@NoArgsConstructor
 @Getter
 @Setter
 public class FileData {
@@ -26,54 +26,43 @@ public class FileData {
     private boolean isValid;
     private String format;
 
-
-
     private FileData(FileDataBuilder fileDataBuilder) {
         this.login = fileDataBuilder.login;
-        this.familyName = fileDataBuilder.familyName;
-        this.firstName = fileDataBuilder.firstName;
-        this.surName = fileDataBuilder.surName;
-        this.entranceDateString = fileDataBuilder.entranceDateString;
-        this.application = fileDataBuilder.application;
-        this.format = fileDataBuilder.format;
+
+        boolean resultName;
+        resultName = validateName(fileDataBuilder.familyName, fileDataBuilder.firstName, fileDataBuilder.surName);
+        if (resultName) {
+            this.familyName = new ValidatorName(fileDataBuilder.familyName).getValue();
+            this.firstName = new ValidatorName(fileDataBuilder.firstName).getValue();
+            this.surName = new ValidatorName(fileDataBuilder.surName).getValue();
+        }
+
+        boolean resultDate;
+        resultDate = validateDate(fileDataBuilder.entranceDateString, fileDataBuilder.format);
+        if (resultDate) {
+            this.entranceDate = new ValidatorDate(fileDataBuilder.entranceDateString, fileDataBuilder.format).getValue();
+        }
+
+        boolean resultApplication;
+        resultApplication = validateApplication(fileDataBuilder.application);
+        if (resultApplication) {
+            this.application = new ValidatorApplication(fileDataBuilder.application).getValue();
+        }
+        this.isValid = resultName && resultDate && resultApplication;
     }
 
-    private boolean validateName() {
-        return new ValidatorName(this.familyName).validate() &&
-                new ValidatorName(this.firstName).validate() &&
-                new ValidatorName(this.surName).validate();
+    private boolean validateName(String familyName, String firstName, String surName) {
+        return new ValidatorName(familyName).validate() &&
+                new ValidatorName(firstName).validate() &&
+                new ValidatorName(surName).validate();
     }
 
-    private boolean validateDate() {
+    private boolean validateDate(String entranceDateString, String format) {
         return new ValidatorDate(entranceDateString, format).validate();
     }
 
-    private boolean validateApplication() {
-        return new ValidatorApplication(this.application).validate();
-    }
-
-    public boolean validate() {
-        boolean resultName;
-        resultName = validateName();
-        if (resultName) {
-            this.familyName = new ValidatorName(this.familyName).getValue();
-            this.firstName = new ValidatorName(this.firstName).getValue();
-            this.surName = new ValidatorName(this.surName).getValue();
-        }
-        boolean resultDate;
-        resultDate = validateDate();
-        if (resultDate) {
-            this.entranceDate = new ValidatorDate(entranceDateString, format).getValue();
-        }
-        boolean resultApplication;
-        resultApplication = validateApplication();
-        if (resultApplication) {
-            this.application = new ValidatorApplication(this.application).getValue();
-        }
-        this.isValid = resultName && resultDate && resultApplication;
-        logger.debug("validate returns " + (this.isValid?"yes":"no"));
-
-        return resultName && resultDate && resultApplication;
+    private boolean validateApplication(String application) {
+        return new ValidatorApplication(application).validate();
     }
 
     @NoArgsConstructor
