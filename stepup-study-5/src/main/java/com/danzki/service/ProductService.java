@@ -27,7 +27,7 @@ public class ProductService implements ErrorMessage {
    }
 
    public String getProductNotFoundMessage(String instanceId) {
-      return "Продукт <INSTANCE_ID> не найден.".replaceAll("INSTANCE_ID", instanceId);
+      return PRODUCT_NOT_FOUND.replaceAll(INSTANCE_ID, instanceId);
    }
 
    public Optional<Product> findByNumber(String number) {

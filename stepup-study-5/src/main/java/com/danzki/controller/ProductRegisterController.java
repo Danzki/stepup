@@ -30,7 +30,11 @@ public class ProductRegisterController {
    private final AccountRequestValidationService requestValidationService;
    private final AccountPoolService accountPoolService;
 
-   public ProductRegisterController(ProductRegisterService productRegisterService, ProductService productService, AccountRequestValidationService requestValidationService, AccountPoolService accountPoolService) {
+   public ProductRegisterController(
+           ProductRegisterService productRegisterService,
+           ProductService productService,
+           AccountRequestValidationService requestValidationService,
+           AccountPoolService accountPoolService) {
       this.productRegisterService = productRegisterService;
       this.productService = productService;
       this.requestValidationService = requestValidationService;
@@ -50,7 +54,7 @@ public class ProductRegisterController {
    }
 
    @PostMapping({"/corporate-settlement-account/create"})
-   public ResponseEntity<ProductRegisterController.CreateProductRegistryResponse> createSettlementAccount(@Valid @RequestBody ProductRegisterController.CorporateSettlementAccountRequest request) {
+   public ResponseEntity<CreateProductRegistryResponse> createSettlementAccount(@Valid @RequestBody CorporateSettlementAccountRequest request) {
       logger.info("Request: \n " + request.toString());
       String step2Response = this.requestValidationService.isExistsByProductIdAndType(request);
       logger.info("step2Response: " + step2Response);
@@ -58,7 +62,7 @@ public class ProductRegisterController {
          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ProductRegisterController.CreateProductRegistryBadRequest(new ProductRegisterController.ResponseDataErr(step2Response)));
       } else {
          Optional<Product> prodOpt = this.productService.findById(request.instanceId());
-         logger.info("prodOpt: " + String.valueOf(prodOpt));
+         logger.info("prodOpt: " + prodOpt);
          if (!prodOpt.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ProductRegisterController.CreateProductRegistryNotFound(new ProductRegisterController.ResponseDataErr(this.productService.getProductNotFoundMessage(Long.toString(request.instanceId())))));
          } else {
@@ -67,8 +71,12 @@ public class ProductRegisterController {
             if (!step3Response.equals("")) {
                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ProductRegisterController.CreateProductRegistryNotFound(new ProductRegisterController.ResponseDataErr(step3Response)));
             } else {
-               Account account = this.accountPoolService.getAccountFromPool(request.branchCode(), request.currencyCode(), request.mdmCode(), request.priorityCode(), request.registryTypeCode());
-               new ProductRegister();
+               Account account = this.accountPoolService.getAccountFromPool(
+                       request.branchCode(),
+                       request.currencyCode(),
+                       request.mdmCode(),
+                       request.priorityCode(),
+                       request.registryTypeCode());
                if (account != null) {
                   logger.info("account: " + account.toString());
                   ProductRegister productRegister = this.productRegisterService.saveFromRequest(request, (Product)prodOpt.get(), account);
@@ -87,7 +95,7 @@ public class ProductRegisterController {
       }
    }
 
-   public static record CorporateSettlementAccountRequest(@NotNull(message = "{instanceId не может быть null}") Long instanceId, String registryTypeCode, String accountType, String currencyCode, String branchCode, String priorityCode, String mdmCode, String clientCode, String trainRegion, String counter, String salesCode) {
+   public record CorporateSettlementAccountRequest(@NotNull(message = "{instanceId не может быть null}") Long instanceId, String registryTypeCode, String accountType, String currencyCode, String branchCode, String priorityCode, String mdmCode, String clientCode, String trainRegion, String counter, String salesCode) {
       public CorporateSettlementAccountRequest(@NotNull(message = "{instanceId не может быть null}") Long instanceId, String registryTypeCode, String accountType, String currencyCode, String branchCode, String priorityCode, String mdmCode, String clientCode, String trainRegion, String counter, String salesCode) {
          this.instanceId = instanceId;
          this.registryTypeCode = registryTypeCode;
@@ -150,7 +158,7 @@ public class ProductRegisterController {
       }
    }
 
-   public static record CreateProductRegistryBadRequest(ProductRegisterController.ResponseDataErr response) implements ProductRegisterController.CreateProductRegistryResponse {
+   public record CreateProductRegistryBadRequest(ProductRegisterController.ResponseDataErr response) implements ProductRegisterController.CreateProductRegistryResponse {
       public CreateProductRegistryBadRequest(@JsonProperty("data") ProductRegisterController.ResponseDataErr response) {
          this.response = response;
       }

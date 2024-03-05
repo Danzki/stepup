@@ -30,7 +30,14 @@ public class ProductAgreementController {
    private final ProductRegisterTypeService productRegisterTypeService;
 
    @Autowired
-   public ProductAgreementController(InstanceRequestValidationService instanceRequestValidationService, AccountTypeService accountTypeService, ProductService productService, ProductRegisterService productRegisterService, AccountPoolService accountPoolService, AgreementService agreementService, ProductRegisterTypeService productRegisterTypeService) {
+   public ProductAgreementController(
+           InstanceRequestValidationService instanceRequestValidationService,
+           AccountTypeService accountTypeService,
+           ProductService productService,
+           ProductRegisterService productRegisterService,
+           AccountPoolService accountPoolService,
+           AgreementService agreementService,
+           ProductRegisterTypeService productRegisterTypeService) {
       this.instanceRequestValidationService = instanceRequestValidationService;
       this.accountTypeService = accountTypeService;
       this.productService = productService;
@@ -53,7 +60,7 @@ public class ProductAgreementController {
    }
 
    @PostMapping({"/corporate-settlement-instance/create"})
-   public ResponseEntity<ProductAgreementController.CreateProductAgreementResponse> createProductAgreement(@Valid @RequestBody ProductAgreementController.CreateProductAgreementRequest request) {
+   public ResponseEntity<CreateProductAgreementResponse> createProductAgreement(@Valid @RequestBody ProductAgreementController.CreateProductAgreementRequest request) {
       if (request.instanceId() == null) {
          logger.info("instanceId пустой. Создаем новый продукт.");
          String step2Response = this.instanceRequestValidationService.isExistsProductByContractNumber(request.contractNumber());
@@ -61,9 +68,9 @@ public class ProductAgreementController {
          if (!step2Response.equals("")) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ProductAgreementController.CreateProductAgreementBadRequest(new ProductAgreementController.ResponseDataErr(step2Response)));
          } else {
-            Optional<AccountType> accountTypeClient = this.accountTypeService.findByValue("Клиентский");
+            var accountTypeClient = this.accountTypeService.findByValue(accountTypeValue);
             if (!accountTypeClient.isPresent()) {
-               String step4Response = this.instanceRequestValidationService.getAccountTypeNotFound("Клиентский");
+               String step4Response = this.instanceRequestValidationService.getAccountTypeNotFound(accountTypeValue);
                logger.info("step4Response: " + step4Response);
                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ProductAgreementController.CreateProductAgreementNotFound(new ProductAgreementController.ResponseDataErr(step4Response)));
             } else {
@@ -82,13 +89,13 @@ public class ProductAgreementController {
                Iterator var24 = productRegisterTypeList.iterator();
 
                while(var24.hasNext()) {
-                  ProductRegisterType productRegisterType = (ProductRegisterType)var24.next();
+                  var productRegisterType = (ProductRegisterType)var24.next();
                   logger.info("branchCode: " + request.branchCode());
                   logger.info("isoCurrencyCode: " + request.isoCurrencyCode());
                   logger.info("mdmCode: " + request.mdmCode());
                   logger.info("urgencyCode: " + request.urgencyCode());
                   logger.info("productRegisterType: " + String.valueOf(productRegisterType));
-                  Account account = this.accountPoolService.getAccountFromPool(request.branchCode(), request.isoCurrencyCode(), request.mdmCode(), request.urgencyCode(), productRegisterType.getValue());
+                  var account = this.accountPoolService.getAccountFromPool(request.branchCode(), request.isoCurrencyCode(), request.mdmCode(), request.urgencyCode(), productRegisterType.getValue());
                   logger.info("account: " + String.valueOf(account));
                   if (account == null) {
                      this.productService.delete(product);
@@ -98,12 +105,10 @@ public class ProductAgreementController {
                   productRegisters.add(this.productRegisterService.saveByParams(product, productRegisterType, account, request.isoCurrencyCode()));
                }
 
-               Long[] resisterId = (Long[])productRegisters.stream().map((x) -> {
-                  return x.getId();
-               }).toArray((size) -> {
-                  return new Long[size];
-               });
-               ProductAgreementController.ResponseDataOk responseOk = new ProductAgreementController.ResponseDataOk(product.getId(), resisterId, (Long[])null);
+               Long[] resisterId = productRegisters.stream()
+                       .map((x) -> x.getId())
+                       .toArray((size) -> new Long[size]);
+               var responseOk = new ProductAgreementController.ResponseDataOk(product.getId(), resisterId, (Long[])null);
                return ResponseEntity.status(HttpStatus.OK).body(new ProductAgreementController.CreateProductAgreementOk(responseOk));
             }
          }
@@ -389,8 +394,8 @@ public class ProductAgreementController {
       }
    }
 
-   public static record InstanceArrangement(String generalAgreementId, String supplementaryAgreementId, String arrangementType, long shedulerJobId, @NotNull(message = "{number не может быть null}") @NotBlank(message = "{number пустое }") String number, @NotNull(message = "{openingDate не может быть null}") Date openingDate, Date closingDate, Date cancelDate, int validityDuration, String cancellationReason, String status, Date interestCalculationDate, float interestRate, float coefficient, String coefficientAction, float minimumInterestRate, String minimumInterestRateCoefficient, String minimumInterestRateCoefficientAction, float maximumInterestRate, String maximumInterestRateCoefficient, String maximumInterestRateCoefficientAction) {
-      public InstanceArrangement(String generalAgreementId, String supplementaryAgreementId, String arrangementType, long shedulerJobId, @NotNull(message = "{number не может быть null}") @NotBlank(message = "{number пустое }") String number, @NotNull(message = "{openingDate не может быть null}") Date openingDate, Date closingDate, Date cancelDate, int validityDuration, String cancellationReason, String status, Date interestCalculationDate, float interestRate, float coefficient, String coefficientAction, float minimumInterestRate, String minimumInterestRateCoefficient, String minimumInterestRateCoefficientAction, float maximumInterestRate, String maximumInterestRateCoefficient, String maximumInterestRateCoefficientAction) {
+   public static record InstanceArrangement(String generalAgreementId, String supplementaryAgreementId, String arrangementType, long shedulerJobId, @NotNull(message = "{number не может быть null}") @NotBlank(message = "{number пустое }") String number, @NotNull(message = "{openingDate не может быть null}") Date openingDate, Date closingDate, Date cancelDate, int validityDuration, String cancellationReason, String status, Date interestCalculationDate, float interestRate, float coefficient, String coefficientAction, Float minimumInterestRate, String minimumInterestRateCoefficient, String minimumInterestRateCoefficientAction, Float maximumInterestRate, String maximumInterestRateCoefficient, String maximumInterestRateCoefficientAction) {
+      public InstanceArrangement(String generalAgreementId, String supplementaryAgreementId, String arrangementType, long shedulerJobId, @NotNull(message = "{number не может быть null}") @NotBlank(message = "{number пустое }") String number, @NotNull(message = "{openingDate не может быть null}") Date openingDate, Date closingDate, Date cancelDate, int validityDuration, String cancellationReason, String status, Date interestCalculationDate, float interestRate, float coefficient, String coefficientAction, Float minimumInterestRate, String minimumInterestRateCoefficient, String minimumInterestRateCoefficientAction, Float maximumInterestRate, String maximumInterestRateCoefficient, String maximumInterestRateCoefficientAction) {
          this.generalAgreementId = generalAgreementId;
          this.supplementaryAgreementId = supplementaryAgreementId;
          this.arrangementType = arrangementType;
@@ -483,7 +488,7 @@ public class ProductAgreementController {
          return this.coefficientAction;
       }
 
-      public float minimumInterestRate() {
+      public Float minimumInterestRate() {
          return this.minimumInterestRate;
       }
 
@@ -495,7 +500,7 @@ public class ProductAgreementController {
          return this.minimumInterestRateCoefficientAction;
       }
 
-      public float maximumInterestRate() {
+      public Float maximumInterestRate() {
          return this.maximumInterestRate;
       }
 
@@ -508,13 +513,13 @@ public class ProductAgreementController {
       }
    }
 
-   static record AdditionalPropertiesVipData(ProductAgreementController.AdditionalPropertiesVipRecord[] additionalPropertiesVipRecords) {
-      AdditionalPropertiesVipData(@JsonProperty("data") ProductAgreementController.AdditionalPropertiesVipRecord[] additionalPropertiesVipRecords) {
+   static record AdditionalPropertiesVipData(AdditionalPropertiesVipRecord[] additionalPropertiesVipRecords) {
+      AdditionalPropertiesVipData(@JsonProperty("data") AdditionalPropertiesVipRecord[] additionalPropertiesVipRecords) {
          this.additionalPropertiesVipRecords = additionalPropertiesVipRecords;
       }
 
       @JsonProperty("data")
-      public ProductAgreementController.AdditionalPropertiesVipRecord[] additionalPropertiesVipRecords() {
+      public AdditionalPropertiesVipRecord[] additionalPropertiesVipRecords() {
          return this.additionalPropertiesVipRecords;
       }
    }

@@ -1,7 +1,7 @@
 package com.danzki.service;
 
 import com.danzki.ErrorMessage;
-import com.danzki.controller.ProductRegisterController;
+import com.danzki.controller.ProductRegisterController.CorporateSettlementAccountRequest;
 import com.danzki.model.Product;
 import com.danzki.model.ProductRegister;
 import com.danzki.model.ProductRegisterType;
@@ -28,22 +28,22 @@ public class AccountRequestValidationService implements ErrorMessage, Validation
       this.productRegisterTypeService = productRegisterTypeService;
    }
 
-   public String isValidRequest(ProductRegisterController.CorporateSettlementAccountRequest request) {
+   public String isValidRequest(CorporateSettlementAccountRequest request) {
       String response = "";
       if (request.instanceId() == null) {
-         response = "instanseId <INSTANCE_ID> не заполнено.".replaceAll("INSTANCE_ID", "");
+         response = ERROR_NECESSARY_FIELDS.replaceAll(INSTANCE_ID, "");
       }
 
       return response;
    }
 
-   public String isExistsByProductIdAndType(ProductRegisterController.CorporateSettlementAccountRequest request) {
+   public String isExistsByProductIdAndType(CorporateSettlementAccountRequest request) {
       String response = "";
       List<ProductRegister> prWithProductIdAndType = this.productRegisterService.findByProductId(request.instanceId()).stream().filter((x) -> {
          return x.getProductRegisterType().getRegisterTypeName().equals(request.registryTypeCode());
       }).toList();
       if (prWithProductIdAndType.size() > 0) {
-         response = "Параметр registryTypeCode тип регистра <REGISTRY_TYPE_CODE_VALUE> уже существует для ЭП с ИД  <IDS>.".replaceAll("REGISTRY_TYPE_CODE_VALUE", request.registryTypeCode());
+         response = ERROR_PR_EXISTS.replaceAll(REGISTRY_TYPE_CODE_VALUE, request.registryTypeCode());
          String ids = "";
 
          ProductRegister pr;
@@ -51,13 +51,13 @@ public class AccountRequestValidationService implements ErrorMessage, Validation
             pr = (ProductRegister)var5.next();
          }
 
-         response = response.replaceAll("IDS", ids);
+         response = response.replaceAll(IDS, ids);
       }
 
       return response;
    }
 
-   public String isExistsProductCode(ProductRegisterController.CorporateSettlementAccountRequest request, Product product) {
+   public String isExistsProductCode(CorporateSettlementAccountRequest request, Product product) {
       String response = "";
       List<ProductRegisterType> prTypes = this.productRegisterTypeService.findAllByValue(product.getProductCodeId());
       boolean isExists = false;
@@ -72,8 +72,8 @@ public class AccountRequestValidationService implements ErrorMessage, Validation
       }
 
       if (!isExists) {
-         response = "КодПродукта <PRODUCT_CODE> не найдено в Каталоге продуктов <BD_TABLE_NAME> для данного типа Регистра".replaceAll("PRODUCT_CODE", product.getProductCodeId());
-         response = response.replaceAll("BD_TABLE_NAME", this.getSchemaAndTableByClass(this.entityManager, ProductRegisterType.class));
+         response = ERROR_PRODUCT_NOT_FOUND.replaceAll(PRODUCT_CODE, product.getProductCodeId());
+         response = response.replaceAll(BD_TABLE_NAME, this.getSchemaAndTableByClass(this.entityManager, ProductRegisterType.class));
       }
 
       return response;

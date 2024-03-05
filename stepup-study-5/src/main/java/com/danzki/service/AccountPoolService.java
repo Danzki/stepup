@@ -36,6 +36,6 @@ public class AccountPoolService implements ErrorMessage {
    }
 
    public String getAccountNotFoundMessage(String branchCode, String currencyCode, String mdmCode, String priorityCode, String registryTypeCode) {
-      return "Счет не найден в пуле счетов <POOL_PARAMS> не найден.".replaceAll("POOL_PARAMS", branchCode + "," + currencyCode + "," + mdmCode + "," + priorityCode + "," + registryTypeCode);
+      return ACCOUNT_NOT_FOUND.replaceAll(POOL_PARAMS, branchCode + "," + currencyCode + "," + mdmCode + "," + priorityCode + "," + registryTypeCode);
    }
 }

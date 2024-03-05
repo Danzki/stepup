@@ -1,6 +1,6 @@
 # HTTP port for incoming requests
 server:
-  port: 8484
+  port: ${SERVER_PORT}
   context-path: /
   # The format used for the keystore
   ssl:
@@ -25,10 +25,10 @@ spring:
 
     # Bot db
   datasource:
-    url: jdbc:postgresql://localhost:5432/product_registry
+    url: ${SPRING_DATASOURCE_URL}
     driver: org.postgresql.Driver
-    username: postgres
-    password: postgres
+    username: ${SPRING_DATASOURCE_USER}
+    password: ${SPRING_DATASOURCE_PASSWORD}
     pool-size: 10
 
   # liquibase

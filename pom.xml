@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.danzki</groupId>
     <artifactId>stepup-study</artifactId>
-    <version>${revision}</version>
+    <version>1.0.1-SNAPSHOT</version>
     <name>stepup-task</name>
     <description>StepUp Task</description>
     <modules>
@@ -11,7 +11,7 @@
         <module>stepup-study-2</module>
         <module>stepup-study-3</module>
         <module>spring-core-4</module>
-        <module>stepup-study-4</module>
+<!--        <module>stepup-study-4</module>-->
         <module>stepup-study-5</module>
     </modules>
     <properties>

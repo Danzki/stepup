@@ -1,7 +1,6 @@
 package com.danzki.service;
 
 import com.danzki.ErrorMessage;
-import com.danzki.model.Agreement;
 import com.danzki.model.Product;
 import com.danzki.model.ProductRegisterType;
 import jakarta.persistence.EntityManager;
@@ -29,8 +28,8 @@ public class InstanceRequestValidationService implements ErrorMessage, Validatio
       Optional<Product> prodOpt = this.productService.findByNumber(contractNumber);
       String response = "";
       if (prodOpt.isPresent()) {
-         response = "Параметр ContractNumber № договора <PRODUCT_NUM> уже существует для ЭП с ИД  <IDS>.".replaceAll("PRODUCT_NUM", contractNumber);
-         response = response.replaceAll("IDS", String.valueOf(((Product)prodOpt.get()).getId()));
+         response = PRODUCT_EXISTS.replaceAll(PRODUCT_NUM, contractNumber);
+         response = response.replaceAll(IDS, Long.toString(prodOpt.get().getId()));
       }
 
       return response;
@@ -40,22 +39,22 @@ public class InstanceRequestValidationService implements ErrorMessage, Validatio
       String response = "";
       Optional<Product> prodOpt = this.productService.findByNumber(contractNumber);
       if (prodOpt.isPresent()) {
-         Product product = (Product)prodOpt.get();
-         Optional<Agreement> agreementOpt = this.agreementService.findByProductAndNumber(product, number);
+         var product = prodOpt.get();
+         var agreementOpt = this.agreementService.findByProductAndNumber(product, number);
          if (agreementOpt.isPresent()) {
-            response = "Параметр ContractNumber № договора <PRODUCT_NUM> уже существует для ЭП с ИД  <IDS>.".replaceAll("PRODUCT_NUM", contractNumber);
-            response = response.replaceAll("IDS", String.valueOf(((Product)prodOpt.get()).getId()));
+            response = ROLL_EXISTS.replaceAll(VALUE, number);
+            response = response.replaceAll(IDS, Long.toString(prodOpt.get().getId()));
          }
       }
-
       return response;
    }
 
    public String getAccountTypeNotFound(String value) {
-      return "AccountType со значение <VALUE> не найден.".replaceAll("VALUE", value);
+      return ACCOUNT_TYPE_NOT_FOUND.replaceAll(VALUE, value);
    }
 
    public String getProductRegistryNotFound(String productCode) {
-      return "КодПродукта <VALUE> не найдено в Каталоге продуктов <BD_TABLE_NAME>".replaceAll("VALUE", productCode).replaceAll("BD_TABLE_NAME", this.getSchemaAndTableByClass(this.entityManager, ProductRegisterType.class));
+      return PRODUCT_REGISTRY_NOT_FOUND.replaceAll(VALUE, productCode)
+              .replaceAll(BD_TABLE_NAME, this.getSchemaAndTableByClass(this.entityManager, ProductRegisterType.class));
    }
 }
