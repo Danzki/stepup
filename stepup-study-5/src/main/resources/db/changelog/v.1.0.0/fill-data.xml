@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="insert data tpp_ref_account_type" author="danzki">
+        <insert tableName="tpp_ref_account_type">
+            <column name="internal_id" valueSequenceNext="seq_id"/>
+            <column name="value" value="Клиентский"/>
+        </insert>
+        <insert tableName="tpp_ref_account_type">
+            <column name="internal_id" valueSequenceNext="seq_id"/>
+            <column name="value" value="Внутрибанковский"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="insert data tpp_ref_product_class" author="danzki">
+        <insert tableName="tpp_ref_product_class">
+            <column name="internal_id" valueSequenceNext="seq_id"/>
+            <column name="value" value="03.012.002"/>
+            <column name="glb_code" value="03"/>
+            <column name="glb_name" value="Розничный бизнес"/>
+            <column name="product_row_code" value="012"/>
+            <column name="product_row_name" value="Драг. металлы"/>
+            <column name="subclass_code" value="002"/>
+            <column name="subclass_name" value="Хранение"/>
+        </insert>
+        <insert tableName="tpp_ref_product_class">
+            <column name="internal_id" valueSequenceNext="seq_id"/>
+            <column name="value" value="02.001.005"/>
+            <column name="glb_code" value="02"/>
+            <column name="glb_name" value="Розничный бизнес"/>
+            <column name="product_row_code" value="002"/>
+            <column name="product_row_name" value="Сырье"/>
+            <column name="subclass_code" value="005"/>
+            <column name="subclass_name" value="Продажа"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="insert data account_pool" author="danzki">
+        <insert tableName="account_pool">
+            <column name="id" valueSequenceNext="seq_id"/>
+            <column name="branch_code" value="0022"/>
+            <column name="currency_code" value="840"/>
+            <column name="mdm_code" value="15"/>
+            <column name="priority_code" value="00"/>
+            <column name="registry_type_code" value="03.012.002_47533_ComSoLd"/>
+        </insert>
+        <insert tableName="account_pool">
+            <column name="id" valueSequenceNext="seq_id"/>
+            <column name="branch_code" value="0021"/>
+            <column name="currency_code" value="643"/>
+            <column name="mdm_code" value="13"/>
+            <column name="priority_code" value="00"/>
+            <column name="registry_type_code" value="02.001.005_45343_CoDowFF"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="insert data account" author="danzki">
+        <insert tableName="account">
+            <column name="id" valueSequenceNext="seq_id"/>
+            <column name="account_num" value="475335516415314841861"/>
+            <column name="account_pool_id" valueComputed="(select ap.id from account_pool ap where ap.branch_code='0021' and ap.currency_code='643')"/>
+        </insert>
+        <insert tableName="account">
+            <column name="id" valueSequenceNext="seq_id"/>
+            <column name="account_num" value="4753321651354151"/>
+            <column name="account_pool_id" valueComputed="(select ap.id from account_pool ap where ap.branch_code='0021' and ap.currency_code='643')"/>
+        </insert>
+        <insert tableName="account">
+            <column name="id" valueSequenceNext="seq_id"/>
+            <column name="account_num" value="4753352543276345"/>
+            <column name="account_pool_id" valueComputed="(select ap.id from account_pool ap where ap.branch_code='0021' and ap.currency_code='643')"/>
+        </insert>
+
+        <insert tableName="account">
+            <column name="id" valueSequenceNext="seq_id"/>
+            <column name="account_num" value="453432352436453276"/>
+            <column name="account_pool_id" valueComputed="(select ap.id from account_pool ap where ap.branch_code='0022' and ap.currency_code='840')"/>
+        </insert>
+        <insert tableName="account">
+            <column name="id" valueSequenceNext="seq_id"/>
+            <column name="account_num" value="45343221651354151"/>
+            <column name="account_pool_id" valueComputed="(select ap.id from account_pool ap where ap.branch_code='0022' and ap.currency_code='840')"/>
+        </insert>
+        <insert tableName="account">
+            <column name="id" valueSequenceNext="seq_id"/>
+            <column name="account_num" value="4534352543276345"/>
+            <column name="account_pool_id" valueComputed="(select ap.id from account_pool ap where ap.branch_code='0022' and ap.currency_code='840')"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="insert data tpp_ref_product_register_type" author="danzki">
+        <insert tableName="tpp_ref_product_register_type">
+            <column name="internal_id" valueSequenceNext="seq_id"/>
+            <column name="value" value="03.012.002_47533_ComSoLd"/>
+            <column name="register_type_name" value="Хранение ДМ."/>
+            <column name="product_class_code" valueComputed="(select glb_code from tpp_ref_product_class where value='03.012.002')"/>
+            <column name="account_type" valueComputed="(select value from tpp_ref_account_type where value='Клиентский')"/>
+        </insert>
+        <insert tableName="tpp_ref_product_register_type">
+            <column name="internal_id" valueSequenceNext="seq_id"/>
+            <column name="value" value="02.001.005_45343_CoDowFF"/>
+            <column name="register_type_name" value="Серебро. Выкуп."/>
+            <column name="product_class_code" valueComputed="(select glb_code from tpp_ref_product_class where value='02.001.005')"/>
+            <column name="account_type" valueComputed="(select value from tpp_ref_account_type where value='Клиентский')"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

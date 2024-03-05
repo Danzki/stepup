@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="insert data tpp_product" author="danzki">
+        <insert tableName="tpp_product">
+            <column name="id" valueSequenceNext="seq_id"/>
+            <column name="product_code_id" value="03.012.002_47533_ComSoLd"/>
+            <column name="client_id" valueNumeric="123"/>
+            <column name="type" value="TestType"/>
+            <column name="number" value="255"/>
+            <column name="priority" value="00"/>
+            <column name="date_of_conclusion" valueDate="2024-02-01"/>
+            <column name="start_date_time" valueDate="2024-02-01"/>
+            <column name="end_date_time" valueDate="2025-01-31"/>
+            <column name="days" valueNumeric="365"/>
+            <column name="penalty_rate" valueNumeric="18.0"/>
+            <column name="nso" valueNumeric="5000000.00"/>
+            <column name="threshold_amount" valueNumeric="400000.00"/>
+            <column name="interest_rate_type" valueNumeric="15.0"/>
+            <column name="tax_rate" valueNumeric="13.0"/>
+            <column name="state" value="WORK"/>
+        </insert>
+
+    </changeSet>
+</databaseChangeLog>
