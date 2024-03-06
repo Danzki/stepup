@@ -26,8 +26,8 @@ public class ProductService implements ErrorMessage {
       return this.productRepo.findById(id);
    }
 
-   public String getProductNotFoundMessage(String instanceId) {
-      return PRODUCT_NOT_FOUND.replaceAll(INSTANCE_ID, instanceId);
+   public String getProductNotFoundMessage(long instanceId) {
+      return PRODUCT_NOT_FOUND.replaceAll(INSTANCE_ID, Long.toString(instanceId));
    }
 
    public Optional<Product> findByNumber(String number) {
