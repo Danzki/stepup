@@ -1,10 +1,14 @@
 package com.danzki.services;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ValidatorDate implements Validatable {
+    private static Logger logger = LoggerFactory.getLogger(ValidatorDate.class);
     private String original;
     private Date value;
     private String format;
@@ -35,7 +39,7 @@ public class ValidatorDate implements Validatable {
         try {
             return formatter.parse(this.original.trim());
         } catch (ParseException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
             return null;
         }
     }

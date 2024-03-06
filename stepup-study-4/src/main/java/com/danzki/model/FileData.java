@@ -6,16 +6,12 @@ import com.danzki.services.ValidatorName;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 
 @Getter
 @Setter
 public class FileData {
-    private static Logger logger = LoggerFactory.getLogger(FileData.class);
-
     private String login;
     private String familyName;
     private String firstName;
