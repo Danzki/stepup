@@ -1,11 +1,15 @@
 package com.danzki.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(
    name = "tpp_product_register"
 )
+@Getter
+@Setter
 public class ProductRegister {
    @Id
    @GeneratedValue(
@@ -59,59 +63,4 @@ public class ProductRegister {
    )
    private String accountNumber;
 
-   public long getId() {
-      return this.id;
-   }
-
-   public ProductRegisterType getProductRegisterType() {
-      return this.productRegisterType;
-   }
-
-   public Product getProduct() {
-      return this.product;
-   }
-
-   public Account getAccount() {
-      return this.account;
-   }
-
-   public String getCurrencyCode() {
-      return this.currencyCode;
-   }
-
-   public State getState() {
-      return this.state;
-   }
-
-   public String getAccountNumber() {
-      return this.accountNumber;
-   }
-
-   public void setId(long id) {
-      this.id = id;
-   }
-
-   public void setProductRegisterType(ProductRegisterType productRegisterType) {
-      this.productRegisterType = productRegisterType;
-   }
-
-   public void setProduct(Product product) {
-      this.product = product;
-   }
-
-   public void setAccount(Account account) {
-      this.account = account;
-   }
-
-   public void setCurrencyCode(String currencyCode) {
-      this.currencyCode = currencyCode;
-   }
-
-   public void setState(State state) {
-      this.state = state;
-   }
-
-   public void setAccountNumber(String accountNumber) {
-      this.accountNumber = accountNumber;
-   }
 }

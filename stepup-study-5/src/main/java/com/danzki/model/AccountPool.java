@@ -1,11 +1,15 @@
 package com.danzki.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(
    name = "account_pool"
 )
+@Getter
+@Setter
 public class AccountPool {
    @Id
    @GeneratedValue(
@@ -47,52 +51,4 @@ public class AccountPool {
       nullable = false
    )
    private String registryTypeCode;
-
-   public long getId() {
-      return this.id;
-   }
-
-   public String getBranchCode() {
-      return this.branchCode;
-   }
-
-   public String getCurrencyCode() {
-      return this.currencyCode;
-   }
-
-   public String getMdmCode() {
-      return this.mdmCode;
-   }
-
-   public String getPriorityCode() {
-      return this.priorityCode;
-   }
-
-   public String getRegistryTypeCode() {
-      return this.registryTypeCode;
-   }
-
-   public void setId(long id) {
-      this.id = id;
-   }
-
-   public void setBranchCode(String branchCode) {
-      this.branchCode = branchCode;
-   }
-
-   public void setCurrencyCode(String currencyCode) {
-      this.currencyCode = currencyCode;
-   }
-
-   public void setMdmCode(String mdmCode) {
-      this.mdmCode = mdmCode;
-   }
-
-   public void setPriorityCode(String priorityCode) {
-      this.priorityCode = priorityCode;
-   }
-
-   public void setRegistryTypeCode(String registryTypeCode) {
-      this.registryTypeCode = registryTypeCode;
-   }
 }

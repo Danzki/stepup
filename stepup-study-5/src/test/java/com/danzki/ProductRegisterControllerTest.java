@@ -98,7 +98,7 @@ public class ProductRegisterControllerTest {
         var errorMessage = "Product not found";
 
         Mockito.when(requestValidationService.isExistsByProductIdAndType(any())).thenReturn("");
-        Mockito.when(productService.getProductNotFoundMessage(any())).thenReturn(errorMessage);
+        Mockito.when(productService.getProductNotFoundMessage(instantId)).thenReturn(errorMessage);
 
         var controller = new ProductRegisterController(
                 productRegisterService,

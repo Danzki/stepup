@@ -1,11 +1,15 @@
 package com.danzki.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(
    name = "tpp_ref_account_type"
 )
+@Getter
+@Setter
 public class AccountType {
    @Id
    @GeneratedValue(
@@ -29,19 +33,4 @@ public class AccountType {
    )
    private String value;
 
-   public long getId() {
-      return this.id;
-   }
-
-   public String getValue() {
-      return this.value;
-   }
-
-   public void setId(long id) {
-      this.id = id;
-   }
-
-   public void setValue(String value) {
-      this.value = value;
-   }
 }

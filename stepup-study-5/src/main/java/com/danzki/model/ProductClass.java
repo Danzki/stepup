@@ -1,11 +1,15 @@
 package com.danzki.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(
    name = "tpp_ref_product_class"
 )
+@Getter
+@Setter
 public class ProductClass {
    @Id
    @GeneratedValue(
@@ -54,67 +58,4 @@ public class ProductClass {
    )
    private String subclassName;
 
-   public long getId() {
-      return this.id;
-   }
-
-   public String getValue() {
-      return this.value;
-   }
-
-   public String getGlobalCode() {
-      return this.globalCode;
-   }
-
-   public String getGlobalName() {
-      return this.globalName;
-   }
-
-   public String getProductRowCode() {
-      return this.productRowCode;
-   }
-
-   public String getProductRowName() {
-      return this.productRowName;
-   }
-
-   public String getSubclassCode() {
-      return this.subclassCode;
-   }
-
-   public String getSubclassName() {
-      return this.subclassName;
-   }
-
-   public void setId(long id) {
-      this.id = id;
-   }
-
-   public void setValue(String value) {
-      this.value = value;
-   }
-
-   public void setGlobalCode(String globalCode) {
-      this.globalCode = globalCode;
-   }
-
-   public void setGlobalName(String globalName) {
-      this.globalName = globalName;
-   }
-
-   public void setProductRowCode(String productRowCode) {
-      this.productRowCode = productRowCode;
-   }
-
-   public void setProductRowName(String productRowName) {
-      this.productRowName = productRowName;
-   }
-
-   public void setSubclassCode(String subclassCode) {
-      this.subclassCode = subclassCode;
-   }
-
-   public void setSubclassName(String subclassName) {
-      this.subclassName = subclassName;
-   }
 }

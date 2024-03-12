@@ -1,11 +1,13 @@
 package com.danzki.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-@Table(
-   name = "account"
-)
+@Table(name = "account")
+@Getter
+@Setter
 public class Account {
    @Id
    @GeneratedValue(
@@ -34,28 +36,4 @@ public class Account {
       name = "account_pool_id"
    )
    private AccountPool accountPool;
-
-   public long getId() {
-      return this.id;
-   }
-
-   public String getAccountNum() {
-      return this.accountNum;
-   }
-
-   public AccountPool getAccountPool() {
-      return this.accountPool;
-   }
-
-   public void setId(long id) {
-      this.id = id;
-   }
-
-   public void setAccountNum(String accountNum) {
-      this.accountNum = accountNum;
-   }
-
-   public void setAccountPool(AccountPool accountPool) {
-      this.accountPool = accountPool;
-   }
 }
