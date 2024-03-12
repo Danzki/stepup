@@ -1,0 +1,47 @@
+spring:
+  jpa:
+    database: PostgreSQL
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+
+    # Bot db
+  datasource:
+    url: jdbc:postgresql://localhost:5432/userlog
+    driver: org.postgresql.Driver
+    username: postgres
+    password: postgres
+    pool-size: 10
+
+#file settings
+filescanner:
+  scanner:
+    daemon: true
+    pollInterval: 5
+    quietPeriod: 1
+    directory: "/in"
+  file:
+    ext: ".log"
+    delim: " "
+    dateFormat: "yyyy-MM-dd"
+
+# logging
+logging:
+  file:
+    name: logs/application-log.log
+    max-size: 1024KB     # Roll the log file when it reaches max size
+    max-history: 50      # Limit the number of log files retained
+
+  pattern:
+    console: "%d %-5level %logger : %msg%n"
+    file: "%d %-5level %logger : %msg%n"
+
+  level:
+    root: INFO
+    org.springframework: ERROR
+    org.hibernate: ERROR
+    com.danzki.services.LogFileService: INFO
+    com.danzki.logger.LogTransformationProcessor: DEBUG
+
+
