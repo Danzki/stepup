@@ -1,0 +1,449 @@
+mainuser@MacHome docker-build % docker buildx build --tag=application-pr . 
+[+] Building 8.7s (8/8) FINISHED                                                                                            
+ => [internal] load build definition from Dockerfile                                                                   0.0s
+ => => transferring dockerfile: 235B                                                                                   0.0s
+ => [internal] load .dockerignore                                                                                      0.0s
+ => => transferring context: 2B                                                                                        0.0s
+ => [internal] load metadata for docker.io/library/openjdk:17-jdk-alpine                                               1.9s
+ => [auth] library/openjdk:pull token for registry-1.docker.io                                                         0.0s
+ => [internal] load build context                                                                                      5.8s
+ => => transferring context: 55.09MB                                                                                   5.8s
+ => CACHED [1/3] FROM docker.io/library/openjdk:17-jdk-alpine@sha256:4b6abae565492dbe9e7a894137c966a7485154238902f2f2  0.0s
+ => [2/3] COPY target/application.jar application.jar                                                                  0.5s
+ => exporting to image                                                                                                 0.4s
+ => => exporting layers                                                                                                0.4s
+ => => writing image sha256:16b7bcc70b543dfc65831a902eed31b8b78df7199b995aa8ecf02f460ccd405f                           0.0s
+ => => naming to docker.io/library/application-pr                                                                      0.0s
+mainuser@MacHome docker-build % docker-compose up
+[+] Running 9/9
+ ✔ db 8 layers [⣿⣿⣿⣿⣿⣿⣿⣿]      0B/0B      Pulled                                                                      16.5s 
+   ✔ 4c0d98bf9879 Pull complete                                                                                        2.9s 
+   ✔ 7ff5918c11c3 Pull complete                                                                                        3.6s 
+   ✔ c393806625cd Pull complete                                                                                        4.1s 
+   ✔ 9307f3bcca3a Pull complete                                                                                       10.4s 
+   ✔ 5eee78b95230 Pull complete                                                                                       10.5s 
+   ✔ c0f2174cad0e Pull complete                                                                                       10.6s 
+   ✔ dd6b4e21c993 Pull complete                                                                                       10.7s 
+   ✔ 1011823211fa Pull complete                                                                                       10.8s 
+[+] Running 5/5
+ ✔ Network docker-build_default               Created                                                                  0.1s 
+ ✔ Network docker-build_spring-cloud-network  Created                                                                  0.1s 
+ ✔ Volume "docker-build_postgres-data"        Created                                                                  0.0s 
+ ✔ Container db                               Created                                                                  0.9s 
+ ✔ Container product-controller               Created                                                                  0.1s 
+Attaching to db, product-controller
+db                  | The files belonging to this database system will be owned by user "postgres".
+db                  | This user must also own the server process.
+db                  | 
+db                  | The database cluster will be initialized with locale "en_US.utf8".
+db                  | The default database encoding has accordingly been set to "UTF8".
+db                  | The default text search configuration will be set to "english".
+db                  | 
+db                  | Data page checksums are disabled.
+db                  | 
+db                  | fixing permissions on existing directory /var/lib/postgresql/data ... ok
+db                  | creating subdirectories ... ok
+db                  | selecting dynamic shared memory implementation ... posix
+db                  | selecting default max_connections ... 100
+db                  | selecting default shared_buffers ... 128MB
+db                  | selecting default time zone ... UTC
+db                  | creating configuration files ... ok
+db                  | running bootstrap script ... ok
+db                  | sh: locale: not found
+db                  | 2024-03-05 19:25:23.807 UTC [23] WARNING:  no usable system locales were found
+db                  | performing post-bootstrap initialization ... ok
+db                  | initdb: warning: enabling "trust" authentication for local connections
+db                  | You can change this by editing pg_hba.conf or using the option -A, or
+db                  | --auth-local and --auth-host, the next time you run initdb.
+db                  | syncing data to disk ... ok
+db                  | 
+db                  | 
+db                  | Success. You can now start the database server using:
+db                  | 
+db                  |     pg_ctl -D /var/lib/postgresql/data -l logfile start
+db                  | 
+db                  | waiting for server to start....2024-03-05 19:25:25.696 UTC [28] LOG:  starting PostgreSQL 13.1 on x86_64-pc-linux-musl, compiled by gcc (Alpine 10.2.1_pre1) 10.2.1 20201203, 64-bit
+db                  | 2024-03-05 19:25:25.699 UTC [28] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+db                  | 2024-03-05 19:25:25.711 UTC [29] LOG:  database system was shut down at 2024-03-05 19:25:25 UTC
+db                  | 2024-03-05 19:25:25.717 UTC [28] LOG:  database system is ready to accept connections
+db                  |  done
+db                  | server started
+db                  | 
+db                  | /usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/docker-postgresql-multiple-databases.sh
+db                  | Multiple database creation requested: product_registry,postgres
+db                  |   Creating user and database 'product_registry'
+db                  | CREATE DATABASE
+db                  | GRANT
+db                  | Multiple databases created
+db                  | 
+db                  | waiting for server to shut down....2024-03-05 19:25:26.711 UTC [28] LOG:  received fast shutdown request
+db                  | 2024-03-05 19:25:26.714 UTC [28] LOG:  aborting any active transactions
+db                  | 2024-03-05 19:25:26.725 UTC [28] LOG:  background worker "logical replication launcher" (PID 35) exited with exit code 1
+db                  | 2024-03-05 19:25:26.730 UTC [30] LOG:  shutting down
+db                  | 2024-03-05 19:25:26.759 UTC [28] LOG:  database system is shut down
+db                  |  done
+db                  | server stopped
+db                  | 
+db                  | PostgreSQL init process complete; ready for start up.
+db                  | 
+db                  | 2024-03-05 19:25:27.112 UTC [1] LOG:  starting PostgreSQL 13.1 on x86_64-pc-linux-musl, compiled by gcc (Alpine 10.2.1_pre1) 10.2.1 20201203, 64-bit
+db                  | 2024-03-05 19:25:27.115 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+db                  | 2024-03-05 19:25:27.115 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+db                  | 2024-03-05 19:25:27.122 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+db                  | 2024-03-05 19:25:27.133 UTC [54] LOG:  database system was shut down at 2024-03-05 19:25:26 UTC
+db                  | 2024-03-05 19:25:27.139 UTC [1] LOG:  database system is ready to accept connections
+product-controller  | 
+product-controller  |   .   ____          _            __ _ _
+product-controller  |  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+product-controller  | ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+product-controller  |  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+product-controller  |   '  |____| .__|_| |_|_| |_\__, | / / / /
+product-controller  |  =========|_|==============|___/=/_/_/_/
+product-controller  |  :: Spring Boot ::                (v3.2.0)
+product-controller  | 
+product-controller  | 2024-03-05 19:25:28,365 INFO  com.danzki.Application : Starting Application using Java 17-ea with PID 1 (/application.jar started by root in /)
+product-controller  | 2024-03-05 19:25:28,372 INFO  com.danzki.Application : No active profile set, falling back to 1 default profile: "default"
+product-controller  | 2024-03-05 19:25:34,279 INFO  org.apache.catalina.core.StandardService : Starting service [Tomcat]
+product-controller  | 2024-03-05 19:25:34,280 INFO  org.apache.catalina.core.StandardEngine : Starting Servlet engine: [Apache Tomcat/10.1.16]
+product-controller  | 2024-03-05 19:25:34,431 INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring embedded WebApplicationContext
+product-controller  | 2024-03-05 19:25:34,822 INFO  com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Starting...
+db                  | 2024-03-05 19:25:34.994 UTC [61] FATAL:  database "product-registry" does not exist
+product-controller  | 2024-03-05 19:25:36,055 ERROR com.zaxxer.hikari.pool.HikariPool : HikariPool-1 - Exception during pool initialization.
+product-controller  | org.postgresql.util.PSQLException: FATAL: database "product-registry" does not exist
+product-controller  |   at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2712)
+product-controller  |   at org.postgresql.core.v3.QueryExecutorImpl.readStartupMessages(QueryExecutorImpl.java:2824)
+product-controller  |   at org.postgresql.core.v3.QueryExecutorImpl.<init>(QueryExecutorImpl.java:174)
+product-controller  |   at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:313)
+product-controller  |   at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:54)
+product-controller  |   at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:263)
+product-controller  |   at org.postgresql.Driver.makeConnection(Driver.java:444)
+product-controller  |   at org.postgresql.Driver.connect(Driver.java:297)
+product-controller  |   at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:138)
+product-controller  |   at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:359)
+product-controller  |   at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:201)
+product-controller  |   at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:470)
+product-controller  |   at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:561)
+product-controller  |   at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:100)
+product-controller  |   at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+product-controller  |   at liquibase.integration.spring.SpringLiquibase.lambda$afterPropertiesSet$0(SpringLiquibase.java:290)
+product-controller  |   at liquibase.Scope.lambda$child$0(Scope.java:184)
+product-controller  |   at liquibase.Scope.child(Scope.java:193)
+product-controller  |   at liquibase.Scope.child(Scope.java:183)
+product-controller  |   at liquibase.Scope.child(Scope.java:162)
+product-controller  |   at liquibase.Scope.child(Scope.java:250)
+product-controller  |   at liquibase.integration.spring.SpringLiquibase.afterPropertiesSet(SpringLiquibase.java:286)
+product-controller  |   at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1822)
+product-controller  |   at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1771)
+product-controller  |   at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:601)
+product-controller  |   at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523)
+product-controller  |   at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+product-controller  |   at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+product-controller  |   at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+product-controller  |   at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+product-controller  |   at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:312)
+product-controller  |   at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+product-controller  |   at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1173)
+product-controller  |   at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:936)
+product-controller  |   at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:616)
+product-controller  |   at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+product-controller  |   at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:753)
+product-controller  |   at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:455)
+product-controller  |   at org.springframework.boot.SpringApplication.run(SpringApplication.java:323)
+product-controller  |   at org.springframework.boot.SpringApplication.run(SpringApplication.java:1342)
+product-controller  |   at org.springframework.boot.SpringApplication.run(SpringApplication.java:1331)
+product-controller  |   at com.danzki.Application.main(Application.java:13)
+product-controller  |   at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+product-controller  |   at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:78)
+product-controller  |   at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+product-controller  |   at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+product-controller  |   at org.springframework.boot.loader.MainMethodRunner.run(MainMethodRunner.java:48)
+product-controller  |   at org.springframework.boot.loader.Launcher.launch(Launcher.java:87)
+product-controller  |   at org.springframework.boot.loader.Launcher.launch(Launcher.java:51)
+product-controller  |   at org.springframework.boot.loader.PropertiesLauncher.main(PropertiesLauncher.java:597)
+product-controller  | 2024-03-05 19:25:36,069 INFO  org.apache.catalina.core.StandardService : Stopping service [Tomcat]
+product-controller  | 2024-03-05 19:25:36,166 ERROR org.springframework.boot.SpringApplication : Application run failed
+product-controller  | org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'liquibase' defined in class path resource [org/springframework/boot/autoconfigure/liquibase/LiquibaseAutoConfiguration$LiquibaseConfiguration.class]: liquibase.exception.DatabaseException: org.postgresql.util.PSQLException: FATAL: database "product-registry" does not exist
+product-controller  |   at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1775)
+product-controller  |   at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:601)
+product-controller  |   at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523)
+product-controller  |   at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+product-controller  |   at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+product-controller  |   at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+product-controller  |   at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+product-controller  |   at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:312)
+product-controller  |   at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+product-controller  |   at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1173)
+product-controller  |   at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:936)
+product-controller  |   at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:616)
+product-controller  |   at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+product-controller  |   at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:753)
+product-controller  |   at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:455)
+product-controller  |   at org.springframework.boot.SpringApplication.run(SpringApplication.java:323)
+product-controller  |   at org.springframework.boot.SpringApplication.run(SpringApplication.java:1342)
+product-controller  |   at org.springframework.boot.SpringApplication.run(SpringApplication.java:1331)
+product-controller  |   at com.danzki.Application.main(Application.java:13)
+product-controller  |   at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+product-controller  |   at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:78)
+product-controller  |   at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+product-controller  |   at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+product-controller  |   at org.springframework.boot.loader.MainMethodRunner.run(MainMethodRunner.java:48)
+product-controller  |   at org.springframework.boot.loader.Launcher.launch(Launcher.java:87)
+product-controller  |   at org.springframework.boot.loader.Launcher.launch(Launcher.java:51)
+product-controller  |   at org.springframework.boot.loader.PropertiesLauncher.main(PropertiesLauncher.java:597)
+product-controller  | Caused by: liquibase.exception.UnexpectedLiquibaseException: liquibase.exception.DatabaseException: org.postgresql.util.PSQLException: FATAL: database "product-registry" does not exist
+product-controller  |   at liquibase.integration.spring.SpringLiquibase.afterPropertiesSet(SpringLiquibase.java:303)
+product-controller  |   at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1822)
+product-controller  |   at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1771)
+product-controller  |   ... 26 common frames omitted
+product-controller  | Caused by: liquibase.exception.DatabaseException: org.postgresql.util.PSQLException: FATAL: database "product-registry" does not exist
+product-controller  |   at liquibase.integration.spring.SpringLiquibase.lambda$afterPropertiesSet$0(SpringLiquibase.java:295)
+product-controller  |   at liquibase.Scope.lambda$child$0(Scope.java:184)
+product-controller  |   at liquibase.Scope.child(Scope.java:193)
+product-controller  |   at liquibase.Scope.child(Scope.java:183)
+product-controller  |   at liquibase.Scope.child(Scope.java:162)
+product-controller  |   at liquibase.Scope.child(Scope.java:250)
+product-controller  |   at liquibase.integration.spring.SpringLiquibase.afterPropertiesSet(SpringLiquibase.java:286)
+product-controller  |   ... 28 common frames omitted
+product-controller  | Caused by: org.postgresql.util.PSQLException: FATAL: database "product-registry" does not exist
+product-controller  |   at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2712)
+product-controller  |   at org.postgresql.core.v3.QueryExecutorImpl.readStartupMessages(QueryExecutorImpl.java:2824)
+product-controller  |   at org.postgresql.core.v3.QueryExecutorImpl.<init>(QueryExecutorImpl.java:174)
+product-controller  |   at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:313)
+product-controller  |   at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:54)
+product-controller  |   at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:263)
+product-controller  |   at org.postgresql.Driver.makeConnection(Driver.java:444)
+product-controller  |   at org.postgresql.Driver.connect(Driver.java:297)
+product-controller  |   at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:138)
+product-controller  |   at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:359)
+product-controller  |   at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:201)
+product-controller  |   at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:470)
+product-controller  |   at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:561)
+product-controller  |   at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:100)
+product-controller  |   at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+product-controller  |   at liquibase.integration.spring.SpringLiquibase.lambda$afterPropertiesSet$0(SpringLiquibase.java:290)
+product-controller  |   ... 34 common frames omitted
+product-controller exited with code 1
+db                  | 2024-03-05 19:26:07.441 UTC [1] LOG:  received fast shutdown request
+db                  | 2024-03-05 19:26:07.443 UTC [1] LOG:  aborting any active transactions
+db                  | 2024-03-05 19:26:07.444 UTC [1] LOG:  background worker "logical replication launcher" (PID 60) exited with exit code 1
+db                  | 2024-03-05 19:26:07.446 UTC [55] LOG:  shutting down
+db                  | 2024-03-05 19:26:07.482 UTC [1] LOG:  database system is shut down
+db exited with code 0
+mainuser@MacHome docker-build % 
+mainuser@MacHome docker-build % docker-compose up
+[+] Running 10/10
+ ✔ db 8 layers [⣿⣿⣿⣿⣿⣿⣿⣿]      0B/0B      Pulled                                                                      14.5s 
+   ✔ 4c0d98bf9879 Pull complete                                                                                        1.1s 
+   ✔ 7ff5918c11c3 Pull complete                                                                                        1.2s 
+   ✔ c393806625cd Pull complete                                                                                        1.4s 
+   ✔ 9307f3bcca3a Pull complete                                                                                       11.1s 
+   ✔ 5eee78b95230 Pull complete                                                                                       11.3s 
+   ✔ c0f2174cad0e Pull complete                                                                                       11.4s 
+   ✔ dd6b4e21c993 Pull complete                                                                                       11.5s 
+   ✔ 1011823211fa Pull complete                                                                                       11.6s 
+ ! app Warning                                                                                                         2.3s 
+[+] Building 3.4s (7/7) FINISHED                                                                                            
+ => [internal] load .dockerignore                                                                                      0.0s
+ => => transferring context: 2B                                                                                        0.0s
+ => [internal] load build definition from Dockerfile                                                                   0.0s
+ => => transferring dockerfile: 235B                                                                                   0.0s
+ => [internal] load metadata for docker.io/library/openjdk:17-jdk-alpine                                               0.7s
+ => [internal] load build context                                                                                      2.7s
+ => => transferring context: 55.09MB                                                                                   2.7s
+ => [1/3] FROM docker.io/library/openjdk:17-jdk-alpine@sha256:4b6abae565492dbe9e7a894137c966a7485154238902f2f25e9dbd9  0.0s
+ => CACHED [2/3] COPY target/application.jar application.jar                                                           0.0s
+ => exporting to image                                                                                                 0.0s
+ => => exporting layers                                                                                                0.0s
+ => => writing image sha256:d37e295efc4b236596c3ce921915dc60decaaa4fe11280b3c2d7540d34beb702                           0.0s
+ => => naming to docker.io/library/application-pr                                                                      0.0s
+[+] Running 5/5
+ ✔ Network docker-build_spring-cloud-network  Created                                                                  0.1s 
+ ✔ Network docker-build_default               Created                                                                  0.1s 
+ ✔ Volume "docker-build_postgres-data"        Created                                                                  0.0s 
+ ✔ Container db                               Created                                                                  1.0s 
+ ✔ Container product-controller               Created                                                                  0.1s 
+Attaching to db, product-controller
+db                  | The files belonging to this database system will be owned by user "postgres".
+db                  | This user must also own the server process.
+db                  | 
+db                  | The database cluster will be initialized with locale "en_US.utf8".
+db                  | The default database encoding has accordingly been set to "UTF8".
+db                  | The default text search configuration will be set to "english".
+db                  | 
+db                  | Data page checksums are disabled.
+db                  | 
+db                  | fixing permissions on existing directory /var/lib/postgresql/data ... ok
+db                  | creating subdirectories ... ok
+db                  | selecting dynamic shared memory implementation ... posix
+db                  | selecting default max_connections ... 100
+db                  | selecting default shared_buffers ... 128MB
+db                  | selecting default time zone ... UTC
+db                  | creating configuration files ... ok
+db                  | running bootstrap script ... ok
+db                  | sh: locale: not found
+db                  | 2024-03-05 19:26:50.500 UTC [22] WARNING:  no usable system locales were found
+db                  | performing post-bootstrap initialization ... ok
+db                  | initdb: warning: enabling "trust" authentication for local connections
+db                  | You can change this by editing pg_hba.conf or using the option -A, or
+db                  | --auth-local and --auth-host, the next time you run initdb.
+db                  | syncing data to disk ... ok
+db                  | 
+db                  | 
+db                  | Success. You can now start the database server using:
+db                  | 
+db                  |     pg_ctl -D /var/lib/postgresql/data -l logfile start
+db                  | 
+db                  | waiting for server to start....2024-03-05 19:26:51.973 UTC [27] LOG:  starting PostgreSQL 13.1 on x86_64-pc-linux-musl, compiled by gcc (Alpine 10.2.1_pre1) 10.2.1 20201203, 64-bit
+db                  | 2024-03-05 19:26:51.978 UTC [27] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+db                  | 2024-03-05 19:26:51.988 UTC [28] LOG:  database system was shut down at 2024-03-05 19:26:51 UTC
+db                  | 2024-03-05 19:26:51.996 UTC [27] LOG:  database system is ready to accept connections
+db                  |  done
+db                  | server started
+db                  | 
+db                  | /usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/docker-postgresql-multiple-databases.sh
+db                  | Multiple database creation requested: product_registry,postgres
+db                  |   Creating user and database 'product_registry'
+db                  | CREATE DATABASE
+db                  | GRANT
+db                  | Multiple databases created
+db                  | 
+db                  | waiting for server to shut down...2024-03-05 19:26:52.346 UTC [27] LOG:  received fast shutdown request
+db                  | .2024-03-05 19:26:52.349 UTC [27] LOG:  aborting any active transactions
+db                  | 2024-03-05 19:26:52.351 UTC [27] LOG:  background worker "logical replication launcher" (PID 34) exited with exit code 1
+db                  | 2024-03-05 19:26:52.351 UTC [29] LOG:  shutting down
+db                  | 2024-03-05 19:26:52.403 UTC [27] LOG:  database system is shut down
+db                  |  done
+db                  | server stopped
+db                  | 
+db                  | PostgreSQL init process complete; ready for start up.
+db                  | 
+db                  | 2024-03-05 19:26:52.509 UTC [1] LOG:  starting PostgreSQL 13.1 on x86_64-pc-linux-musl, compiled by gcc (Alpine 10.2.1_pre1) 10.2.1 20201203, 64-bit
+db                  | 2024-03-05 19:26:52.509 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+db                  | 2024-03-05 19:26:52.509 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+db                  | 2024-03-05 19:26:52.514 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+db                  | 2024-03-05 19:26:52.526 UTC [53] LOG:  database system was shut down at 2024-03-05 19:26:52 UTC
+db                  | 2024-03-05 19:26:52.532 UTC [1] LOG:  database system is ready to accept connections
+product-controller  | 
+product-controller  |   .   ____          _            __ _ _
+product-controller  |  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+product-controller  | ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+product-controller  |  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+product-controller  |   '  |____| .__|_| |_|_| |_\__, | / / / /
+product-controller  |  =========|_|==============|___/=/_/_/_/
+product-controller  |  :: Spring Boot ::                (v3.2.0)
+product-controller  | 
+product-controller  | 2024-03-05 19:26:53,692 INFO  com.danzki.Application : Starting Application using Java 17-ea with PID 1 (/application.jar started by root in /)
+product-controller  | 2024-03-05 19:26:53,696 INFO  com.danzki.Application : No active profile set, falling back to 1 default profile: "default"
+product-controller  | 2024-03-05 19:27:07,452 INFO  org.apache.catalina.core.StandardService : Starting service [Tomcat]
+product-controller  | 2024-03-05 19:27:07,456 INFO  org.apache.catalina.core.StandardEngine : Starting Servlet engine: [Apache Tomcat/10.1.16]
+product-controller  | 2024-03-05 19:27:07,571 INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring embedded WebApplicationContext
+product-controller  | 2024-03-05 19:27:08,198 INFO  com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Starting...
+product-controller  | 2024-03-05 19:27:10,419 INFO  com.zaxxer.hikari.pool.HikariPool : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3277e499
+product-controller  | 2024-03-05 19:27:10,449 INFO  com.zaxxer.hikari.HikariDataSource : HikariPool-1 - Start completed.
+product-controller  | 2024-03-05 19:27:11,434 INFO  liquibase.database : Set default schema name to public
+product-controller  | 2024-03-05 19:27:14,817 INFO  liquibase.changelog : Creating database history table with name: public.databasechangelog
+product-controller  | 2024-03-05 19:27:15,084 INFO  liquibase.changelog : Reading from public.databasechangelog
+db                  | 2024-03-05 19:27:15.126 UTC [60] ERROR:  relation "public.databasechangeloglock" does not exist at character 22
+db                  | 2024-03-05 19:27:15.126 UTC [60] STATEMENT:  SELECT COUNT(*) FROM public.databasechangeloglock
+product-controller  | 2024-03-05 19:27:16,217 INFO  liquibase.lockservice : Successfully acquired change log lock
+product-controller  | 2024-03-05 19:27:16,240 INFO  liquibase.command : Using deploymentId: 9666836239
+product-controller  | 2024-03-05 19:27:16,249 INFO  liquibase.changelog : Reading from public.databasechangelog
+product-controller  | 2024-03-05 19:27:16,466 INFO  liquibase.ui : Running Changeset: db/changelog/v.1.0.0/changelog.xml::add-tag-1.0.0::danzki
+product-controller  | 2024-03-05 19:27:16,497 INFO  liquibase.changelog : Tag 'v.1.0.0' applied to database
+product-controller  | 2024-03-05 19:27:16,509 INFO  liquibase.changelog : ChangeSet db/changelog/v.1.0.0/changelog.xml::add-tag-1.0.0::danzki ran successfully in 36ms
+product-controller  | 2024-03-05 19:27:16,556 INFO  liquibase.ui : Running Changeset: db/changelog/v.1.0.0/create-tables.xml::create-seq_id::danzki
+product-controller  | 2024-03-05 19:27:16,580 INFO  liquibase.changelog : Sequence seq_id created
+product-controller  | 2024-03-05 19:27:16,591 INFO  liquibase.changelog : ChangeSet db/changelog/v.1.0.0/create-tables.xml::create-seq_id::danzki ran successfully in 33ms
+product-controller  | 2024-03-05 19:27:16,613 INFO  liquibase.ui : Running Changeset: db/changelog/v.1.0.0/create-tables.xml::tpp_ref_account_type::danzki
+product-controller  | 2024-03-05 19:27:16,688 INFO  liquibase.changelog : Table tpp_ref_account_type created
+product-controller  | 2024-03-05 19:27:16,695 INFO  liquibase.changelog : ChangeSet db/changelog/v.1.0.0/create-tables.xml::tpp_ref_account_type::danzki ran successfully in 81ms
+product-controller  | 2024-03-05 19:27:16,724 INFO  liquibase.ui : Running Changeset: db/changelog/v.1.0.0/create-tables.xml::account_pool::danzki
+product-controller  | 2024-03-05 19:27:16,792 INFO  liquibase.changelog : Table account_pool created
+product-controller  | 2024-03-05 19:27:16,806 INFO  liquibase.changelog : ChangeSet db/changelog/v.1.0.0/create-tables.xml::account_pool::danzki ran successfully in 78ms
+product-controller  | 2024-03-05 19:27:16,854 INFO  liquibase.ui : Running Changeset: db/changelog/v.1.0.0/create-tables.xml::account::danzki
+product-controller  | 2024-03-05 19:27:16,937 INFO  liquibase.changelog : Table account created
+product-controller  | 2024-03-05 19:27:16,988 INFO  liquibase.changelog : Foreign key constraint added to account (account_pool_id)
+product-controller  | 2024-03-05 19:27:17,002 INFO  liquibase.changelog : ChangeSet db/changelog/v.1.0.0/create-tables.xml::account::danzki ran successfully in 137ms
+product-controller  | 2024-03-05 19:27:17,043 INFO  liquibase.ui : Running Changeset: db/changelog/v.1.0.0/create-tables.xml::tpp_ref_product_class::danzki
+product-controller  | 2024-03-05 19:27:17,153 INFO  liquibase.changelog : Table tpp_ref_product_class created
+product-controller  | 2024-03-05 19:27:17,166 INFO  liquibase.changelog : ChangeSet db/changelog/v.1.0.0/create-tables.xml::tpp_ref_product_class::danzki ran successfully in 120ms
+product-controller  | 2024-03-05 19:27:17,188 INFO  liquibase.ui : Running Changeset: db/changelog/v.1.0.0/create-tables.xml::tpp_ref_product_register_type::danzki
+product-controller  | 2024-03-05 19:27:17,325 INFO  liquibase.changelog : Table tpp_ref_product_register_type created
+product-controller  | 2024-03-05 19:27:17,348 INFO  liquibase.changelog : Foreign key constraint added to tpp_ref_product_register_type (product_class_code)
+product-controller  | 2024-03-05 19:27:17,391 INFO  liquibase.changelog : Foreign key constraint added to tpp_ref_product_register_type (account_type)
+product-controller  | 2024-03-05 19:27:17,404 INFO  liquibase.changelog : ChangeSet db/changelog/v.1.0.0/create-tables.xml::tpp_ref_product_register_type::danzki ran successfully in 215ms
+product-controller  | 2024-03-05 19:27:17,443 INFO  liquibase.ui : Running Changeset: db/changelog/v.1.0.0/create-tables.xml::tpp_product::danzki
+product-controller  | 2024-03-05 19:27:17,530 INFO  liquibase.changelog : Table tpp_product created
+product-controller  | 2024-03-05 19:27:17,542 INFO  liquibase.changelog : ChangeSet db/changelog/v.1.0.0/create-tables.xml::tpp_product::danzki ran successfully in 95ms
+product-controller  | 2024-03-05 19:27:17,640 INFO  liquibase.ui : Running Changeset: db/changelog/v.1.0.0/create-tables.xml::agreements::danzki
+product-controller  | 2024-03-05 19:27:17,717 INFO  liquibase.changelog : Table agreements created
+product-controller  | 2024-03-05 19:27:17,739 INFO  liquibase.changelog : Foreign key constraint added to agreements (product_id)
+product-controller  | 2024-03-05 19:27:17,763 INFO  liquibase.changelog : ChangeSet db/changelog/v.1.0.0/create-tables.xml::agreements::danzki ran successfully in 120ms
+product-controller  | 2024-03-05 19:27:17,793 INFO  liquibase.ui : Running Changeset: db/changelog/v.1.0.0/create-tables.xml::tpp_product_register::danzki
+product-controller  | 2024-03-05 19:27:17,895 INFO  liquibase.changelog : Table tpp_product_register created
+product-controller  | 2024-03-05 19:27:17,980 INFO  liquibase.changelog : Foreign key constraint added to tpp_product_register (type)
+product-controller  | 2024-03-05 19:27:18,004 INFO  liquibase.changelog : Foreign key constraint added to tpp_product_register (product_id)
+product-controller  | 2024-03-05 19:27:18,021 INFO  liquibase.changelog : Foreign key constraint added to tpp_product_register (account_id)
+product-controller  | 2024-03-05 19:27:18,050 INFO  liquibase.changelog : ChangeSet db/changelog/v.1.0.0/create-tables.xml::tpp_product_register::danzki ran successfully in 254ms
+product-controller  | 2024-03-05 19:27:18,101 INFO  liquibase.ui : Running Changeset: db/changelog/v.1.0.0/fill-data.xml::insert data tpp_ref_account_type::danzki
+product-controller  | 2024-03-05 19:27:18,128 INFO  liquibase.changelog : New row inserted into tpp_ref_account_type
+product-controller  | 2024-03-05 19:27:18,137 INFO  liquibase.changelog : New row inserted into tpp_ref_account_type
+product-controller  | 2024-03-05 19:27:18,153 INFO  liquibase.changelog : ChangeSet db/changelog/v.1.0.0/fill-data.xml::insert data tpp_ref_account_type::danzki ran successfully in 50ms
+product-controller  | 2024-03-05 19:27:18,196 INFO  liquibase.ui : Running Changeset: db/changelog/v.1.0.0/fill-data.xml::insert data tpp_ref_product_class::danzki
+product-controller  | 2024-03-05 19:27:18,219 INFO  liquibase.changelog : New row inserted into tpp_ref_product_class
+product-controller  | 2024-03-05 19:27:18,228 INFO  liquibase.changelog : New row inserted into tpp_ref_product_class
+product-controller  | 2024-03-05 19:27:18,251 INFO  liquibase.changelog : ChangeSet db/changelog/v.1.0.0/fill-data.xml::insert data tpp_ref_product_class::danzki ran successfully in 53ms
+product-controller  | 2024-03-05 19:27:18,297 INFO  liquibase.ui : Running Changeset: db/changelog/v.1.0.0/fill-data.xml::insert data account_pool::danzki
+product-controller  | 2024-03-05 19:27:18,349 INFO  liquibase.changelog : New row inserted into account_pool
+product-controller  | 2024-03-05 19:27:18,368 INFO  liquibase.changelog : New row inserted into account_pool
+product-controller  | 2024-03-05 19:27:18,404 INFO  liquibase.changelog : ChangeSet db/changelog/v.1.0.0/fill-data.xml::insert data account_pool::danzki ran successfully in 107ms
+product-controller  | 2024-03-05 19:27:18,460 INFO  liquibase.ui : Running Changeset: db/changelog/v.1.0.0/fill-data.xml::insert data account::danzki
+product-controller  | 2024-03-05 19:27:18,476 INFO  liquibase.changelog : New row inserted into account
+product-controller  | 2024-03-05 19:27:18,483 INFO  liquibase.changelog : New row inserted into account
+product-controller  | 2024-03-05 19:27:18,490 INFO  liquibase.changelog : New row inserted into account
+product-controller  | 2024-03-05 19:27:18,496 INFO  liquibase.changelog : New row inserted into account
+product-controller  | 2024-03-05 19:27:18,504 INFO  liquibase.changelog : New row inserted into account
+product-controller  | 2024-03-05 19:27:18,513 INFO  liquibase.changelog : New row inserted into account
+product-controller  | 2024-03-05 19:27:18,522 INFO  liquibase.changelog : ChangeSet db/changelog/v.1.0.0/fill-data.xml::insert data account::danzki ran successfully in 60ms
+product-controller  | 2024-03-05 19:27:18,541 INFO  liquibase.ui : Running Changeset: db/changelog/v.1.0.0/fill-data.xml::insert data tpp_ref_product_register_type::danzki
+product-controller  | 2024-03-05 19:27:18,570 INFO  liquibase.changelog : New row inserted into tpp_ref_product_register_type
+product-controller  | 2024-03-05 19:27:18,580 INFO  liquibase.changelog : New row inserted into tpp_ref_product_register_type
+product-controller  | 2024-03-05 19:27:18,591 INFO  liquibase.changelog : ChangeSet db/changelog/v.1.0.0/fill-data.xml::insert data tpp_ref_product_register_type::danzki ran successfully in 48ms
+product-controller  | 2024-03-05 19:27:18,609 INFO  liquibase.ui : Running Changeset: db/changelog/v.1.0.0/fill-data-2.xml::insert data tpp_product::danzki
+product-controller  | 2024-03-05 19:27:18,628 INFO  liquibase.changelog : New row inserted into tpp_product
+product-controller  | 2024-03-05 19:27:18,643 INFO  liquibase.changelog : ChangeSet db/changelog/v.1.0.0/fill-data-2.xml::insert data tpp_product::danzki ran successfully in 32ms
+product-controller  | 2024-03-05 19:27:18,688 INFO  liquibase.util : UPDATE SUMMARY
+product-controller  | 2024-03-05 19:27:18,689 INFO  liquibase.util : Run:                         16
+product-controller  | 2024-03-05 19:27:18,689 INFO  liquibase.util : Previously run:               0
+product-controller  | 2024-03-05 19:27:18,690 INFO  liquibase.util : Filtered out:                 0
+product-controller  | 2024-03-05 19:27:18,690 INFO  liquibase.util : -------------------------------
+product-controller  | 2024-03-05 19:27:18,690 INFO  liquibase.util : Total change sets:           16
+product-controller  | 2024-03-05 19:27:18,691 INFO  liquibase.util : Update summary generated
+product-controller  | 2024-03-05 19:27:18,695 INFO  liquibase.command : Update command completed successfully.
+product-controller  | 2024-03-05 19:27:18,698 INFO  liquibase.ui : Liquibase: Update has been successful. Rows affected: 31
+product-controller  | 2024-03-05 19:27:18,732 INFO  liquibase.lockservice : Successfully released change log lock
+product-controller  | 2024-03-05 19:27:18,738 INFO  liquibase.command : Command execution complete
+product-controller  | 2024-03-05 19:27:27,125 INFO  com.danzki.Application : Started Application in 35.608 seconds (process running for 36.959)
+product-controller  | 2024-03-05 19:28:10,166 INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] : Initializing Spring DispatcherServlet 'dispatcherServlet'
+product-controller  | 2024-03-05 19:28:11,000 INFO  com.danzki.controller.ProductAgreementController : instanceId пустой. Создаем новый продукт.
+product-controller  | Hibernate: select p1_0.id,p1_0.client_id,p1_0.date_of_conclusion,p1_0.days,p1_0.end_date_time,p1_0.interest_rate_type,p1_0.nso,p1_0.number,p1_0.penalty_rate,p1_0.priority,p1_0.product_code_id,p1_0.reason_close,p1_0.requisite_type,p1_0.start_date_time,p1_0.state,p1_0.tax_rate,p1_0.threshold_amount,p1_0.type from tpp_product p1_0 where p1_0.number=?
+product-controller  | 2024-03-05 19:28:11,433 INFO  com.danzki.controller.ProductAgreementController : step2Response: 
+product-controller  | Hibernate: select at1_0.internal_id,at1_0.value from tpp_ref_account_type at1_0 where at1_0.value=?
+product-controller  | Hibernate: select pc1_0.internal_id,pc1_0.glb_code,pc1_0.glb_name,pc1_0.product_row_code,pc1_0.product_row_name,pc1_0.subclass_code,pc1_0.subclass_name,pc1_0.value from tpp_ref_product_class pc1_0 where pc1_0.glb_code=?
+product-controller  | Hibernate: select prt1_0.internal_id,prt1_0.account_type,prt1_0.product_class_code,prt1_0.register_type_name,prt1_0.value from tpp_ref_product_register_type prt1_0 where prt1_0.product_class_code=?
+product-controller  | Hibernate: select at1_0.internal_id,at1_0.value from tpp_ref_account_type at1_0 where at1_0.value=?
+product-controller  | Hibernate: select pc1_0.internal_id,pc1_0.glb_code,pc1_0.glb_name,pc1_0.product_row_code,pc1_0.product_row_name,pc1_0.subclass_code,pc1_0.subclass_name,pc1_0.value from tpp_ref_product_class pc1_0 where pc1_0.glb_code=?
+product-controller  | Hibernate: select nextval('seq_id')
+product-controller  | Hibernate: insert into tpp_product (client_id,date_of_conclusion,days,end_date_time,interest_rate_type,nso,number,penalty_rate,priority,product_code_id,reason_close,requisite_type,start_date_time,state,tax_rate,threshold_amount,type,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+product-controller  | 2024-03-05 19:28:11,701 INFO  com.danzki.controller.ProductAgreementController : product: com.danzki.model.Product@3a2ecf42
+product-controller  | 2024-03-05 19:28:11,703 INFO  com.danzki.controller.ProductAgreementController : branchCode: 0021
+product-controller  | 2024-03-05 19:28:11,704 INFO  com.danzki.controller.ProductAgreementController : isoCurrencyCode: 643
+product-controller  | 2024-03-05 19:28:11,705 INFO  com.danzki.controller.ProductAgreementController : mdmCode: 13
+product-controller  | 2024-03-05 19:28:11,705 INFO  com.danzki.controller.ProductAgreementController : urgencyCode: 00
+product-controller  | 2024-03-05 19:28:11,706 INFO  com.danzki.controller.ProductAgreementController : productRegisterType: com.danzki.model.ProductRegisterType@27df8e55
+product-controller  | Hibernate: select ap1_0.id,ap1_0.branch_code,ap1_0.currency_code,ap1_0.mdm_code,ap1_0.priority_code,ap1_0.registry_type_code from account_pool ap1_0 where ap1_0.branch_code=? and ap1_0.currency_code=? and ap1_0.mdm_code=? and ap1_0.priority_code=? and ap1_0.registry_type_code=?
+product-controller  | Hibernate: select a1_0.id,a1_0.account_num,a1_0.account_pool_id from account a1_0 where a1_0.account_pool_id=? fetch first ? rows only
+product-controller  | 2024-03-05 19:28:11,770 INFO  com.danzki.controller.ProductAgreementController : account: com.danzki.model.Account@edff792
+product-controller  | Hibernate: select nextval('seq_id')
+product-controller  | Hibernate: insert into tpp_product_register (account_id,account_number,currency_code,product_id,type,state,id) values (?,?,?,?,?,?,?)
+

@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.danzki</groupId>
         <artifactId>stepup-study</artifactId>
-        <version>${revision}</version>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
     <groupId>com.danzki</groupId>
     <artifactId>stepup-study-1</artifactId>

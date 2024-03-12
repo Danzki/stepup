@@ -1,0 +1,58 @@
+# HTTP port for incoming requests
+server:
+  port: ${SERVER_PORT}
+  context-path: /
+  # The format used for the keystore
+  ssl:
+    enabled: false
+    key-store-type: PKCS12
+  # The path to the keystore containing the certificate
+    key-store: classpath:keystore/danzki.p12
+  # The password used to generate the certificate
+    key-store-password: paSsw0rd
+  # The alias mapped to the certificate
+    key-alias: danzki
+    trust-store: classpath:keystore/danzki.p12
+    trust-store-password: paSsw0rd
+
+#db related settings
+spring:
+  jpa:
+    database: PostgreSQL
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+
+    # Bot db
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    driver: org.postgresql.Driver
+    username: ${SPRING_DATASOURCE_USER}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    pool-size: 10
+
+  # liquibase
+  liquibase:
+    enabled: true
+    changeLog: classpath:db/changelog/db.changelog-master.xml
+    drop-first: false
+
+# logging
+logging:
+  file:
+    name: logs/application-log.log
+    max-size: 1024KB     # Roll the log file when it reaches max size
+    max-history: 50      # Limit the number of log files retained
+
+  pattern:
+    console: "%d %-5level %logger : %msg%n"
+    file: "%d %-5level %logger : %msg%n"
+
+  level:
+    root: INFO
+    org.springframework: ERROR
+    org.hibernate: ERROR
+    org.apache.http: DEBUG
+
+
+
